@@ -61,7 +61,6 @@ module.exports = {
       {
         test: /\.styl$/,
         loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus')
-        // loader: ExtractTextPlugin.extract('style', 'css?sourceMap!autoprefixer?{browsers:["> 3%"]}!stylus?sourceMap')
       },
       {
         test: /\.css$/,

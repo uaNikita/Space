@@ -1,21 +1,10 @@
 {
-  "name": "simple-loader",
+  "name": "space",
   "version": "1.0.0",
-  "description": "the simplest loader you'll ever need",
-  "main": "dist/simpleLoader.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/uaNikita/simpleLoader"
-  },
+  "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack"
   },
-  "keywords": [
-    "loader",
-    "simple",
-    "responsive",
-    "js"
-  ],
   "author": "Nikita Zhukov <nikita.zhukov@gmail.com>",
   "contributors": [
     {
@@ -25,14 +14,12 @@
     }
   ],
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/uaNikita/slick/issues"
-  },
   "dependencies": {
-    "jquery": ">=1.7.2"
+    "jquery": ">=1.7.2",
+    "lodash": "*"
   },
   "devDependencies": {
-    "webpack": "*",
+    "webpack": "1.13.2",
     "babel-core": "*",
     "babel-loader": "*",
     "babel-preset-es2015": "*",
@@ -44,7 +31,7 @@
     "stylus-loader": "*",
     "postcss-loader": "*",
     "autoprefixer": "*",
-    "lodash": "*"
+    "chai": "*"
   }
 }
 
