@@ -54,10 +54,15 @@
 
 	var _currying2 = _interopRequireDefault(_currying);
 
+	var _inheritance = __webpack_require__(5);
+
+	var _inheritance2 = _interopRequireDefault(_inheritance);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// sorting();
-	(0, _currying2.default)();
+	// currying();
+	(0, _inheritance2.default)();
 
 /***/ },
 /* 1 */
@@ -17367,13 +17372,13 @@
 
 	exports.default = function () {
 
-	   var add = function add(orig) {
+	   var add = function add(origin) {
 
 	      var inner = function inner(val) {
 
-	         var result = orig;
+	         var result = origin;
 
-	         if (parseInt(val + '', 10) === val) {
+	         if (parseInt(val + '', 10) == val) {
 	            result += val;
 	         }
 
@@ -17381,13 +17386,41 @@
 	      };
 
 	      inner.valueOf = function () {
-	         return orig;
+	         return origin;
 	      };
 
 	      return inner;
 	   };
 
+	   window.three = add(3);
+	   window.four = add(4);
+
+	   window.seven = three(four);
+
+	   console.log(three(four));
+
 	   window.add = add;
+	};
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+
+	exports.default = function () {
+
+	   var extend = function extend(Child, Parent) {
+	      var F = function F() {};
+	      F.prototype = Parent.prototype;
+	      Child.prototype = new F();
+	      Child.prototype.constructor = Child;
+	      Child.superclass = Parent.prototype;
+	   };
 	};
 
 /***/ }

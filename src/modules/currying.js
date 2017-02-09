@@ -1,21 +1,21 @@
-
 export default () => {
 
-   const add = function (orig) {
+   const add = origin => {
 
-      var inner = function (val) {
+      const inner = val => {
 
-         let result = orig;
+         let result = origin;
 
-         if (parseInt(val + '', 10) === val) {
+         if (parseInt(val + '', 10) == val) {
             result += val;
          }
 
          return add(result);
+
       };
 
-      inner.valueOf = function () {
-         return orig;
+      inner.valueOf = () => {
+         return origin;
       };
 
       return inner;
@@ -23,7 +23,18 @@ export default () => {
    };
 
 
+   window.three = add(3);
+   window.four = add(4);
+
+
+   window.seven = three(four);
+
+   console.log(three(four));
+
    window.add = add;
+
+
+
 
 
 }
