@@ -50,19 +50,24 @@
 
 	var _sorting2 = _interopRequireDefault(_sorting);
 
-	var _currying = __webpack_require__(4);
+	var _clone = __webpack_require__(4);
+
+	var _clone2 = _interopRequireDefault(_clone);
+
+	var _currying = __webpack_require__(5);
 
 	var _currying2 = _interopRequireDefault(_currying);
 
-	var _inheritance = __webpack_require__(5);
+	var _inheritance = __webpack_require__(6);
 
 	var _inheritance2 = _interopRequireDefault(_inheritance);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// sorting();
+	(0, _sorting2.default)();
+	// clone();
 	// currying();
-	(0, _inheritance2.default)();
+	// inheritance();
 
 /***/ },
 /* 1 */
@@ -81,7 +86,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = function () {
-	   var arr = _lodash2.default.times(100, function () {
+	   var arr = _lodash2.default.times(10, function () {
 	      return _lodash2.default.random(0, 100);
 	   });
 
@@ -113,101 +118,12 @@
 	      return arr;
 	   };
 
-	   var sortBy2 = function sortBy2(arr) {
-	      arr = _lodash2.default.clone(arr);
+	   var quickSortExample = function quickSortExample(arr) {
 
-	      var left = 0;
-	      var right = arr.length - 1;
-	      var i = void 0;
-	      var k = void 0;
-
-	      console.log('-----------------------');
-
-	      while (left < right) {
-
-	         for (i = left; i < right; i += 1) {
-
-	            if (arr[i] > arr[i + 1]) {
-	               k = arr[i + 1];
-
-	               arr[i + 1] = arr[i];
-
-	               arr[i] = k;
-	            }
-	         }
-
-	         right -= 1;
-
-	         for (i = right; i > left; i -= 1) {
-
-	            if (arr[i] < arr[i - 1]) {
-	               k = arr[i - 1];
-
-	               arr[i - 1] = arr[i];
-
-	               arr[i] = k;
-	            }
-	         }
-
-	         left += 1;
-
-	         console.log(arr);
-	      }
-
-	      console.log('-----------------------');
-
-	      return arr;
-	   };
-
-	   var sortBy3 = function sortBy3(arr) {
-	      var temp = void 0;
-
-	      var sort = function sort(arr, low, high) {
-	         var i = low;
-	         var j = high;
-	         var middle = arr[Math.round((low + high) / 2)];
-
-	         console.log('middle', middle);
-
-	         while (i < j) {
-	            while (arr[i] < middle) {
-	               i += 1;
-	            }
-
-	            while (arr[j] > middle) {
-	               j -= 1;
-	            }
-
-	            if (i <= j) {
-	               if (arr[i] !== arr[j]) {
-	                  temp = arr[i];
-	                  arr[i] = arr[j];
-	                  arr[j] = temp;
-	               }
-
-	               i += 1;
-	               j -= 1;
-	            }
-	         }
-
-	         if (low < j) {
-	            sort(arr, low, j);
-	         }
-
-	         if (i < high) {
-	            sort(arr, i, high);
-	         }
-	      };
-
-	      sort(arr, 0, arr.length - 1);
-
-	      return arr;
-	   };
-
-	   var sortFast = function sortFast(arr) {
 	      var temp = void 0;
 
 	      var sort = function sort(low, high) {
+
 	         var i = low;
 	         var j = high;
 	         var m = arr[Math.round((i + j) / 2)];
@@ -223,6 +139,7 @@
 	            }
 
 	            if (i <= j) {
+
 	               if (arr[i] !== arr[j]) {
 	                  temp = arr[i];
 
@@ -236,11 +153,11 @@
 	            }
 	         }
 
-	         if (low < j) {
+	         if (j > low) {
 	            sort(low, j);
 	         }
 
-	         if (high > i) {
+	         if (i < high) {
 	            sort(i, high);
 	         }
 	      };
@@ -250,7 +167,57 @@
 	      return arr;
 	   };
 
-	   console.log('Финальный массив\n', sortFast(arr));
+	   var quickSort = function quickSort(arr) {
+
+	      var temp = void 0;
+
+	      var sort = function sort(low, high) {
+
+	         var i = low;
+	         var j = high;
+	         var m = arr[Math.round((i + j) / 2)];
+
+	         while (i < j) {
+
+	            while (arr[i] < m) {
+	               i += 1;
+	            }
+
+	            while (arr[j] > m) {
+	               j -= 1;
+	            }
+
+	            if (i <= j) {
+
+	               if (arr[i] !== arr[j]) {
+
+	                  temp = arr[j];
+
+	                  arr[j] = arr[i];
+
+	                  arr[i] = temp;
+	               }
+
+	               i += 1;
+	               j -= 1;
+	            }
+	         }
+
+	         if (j > low) {
+	            sort(low, j);
+	         }
+
+	         if (i < high) {
+	            sort(i, high);
+	         }
+	      };
+
+	      sort(0, arr.length - 1);
+
+	      return arr;
+	   };
+
+	   console.log('Финальный массив\n', quickSort(arr));
 	};
 
 /***/ },
@@ -17362,6 +17329,51 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	   value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _lodash = __webpack_require__(2);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function () {
+
+	   // recursive function to clone an object. If a non object parameter
+	   // is passed in, that parameter is returned and no recursion occurs.
+
+	   function cloneObject(obj) {
+	      if (obj === null || (typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) !== 'object') {
+	         return obj;
+	      }
+
+	      var temp = obj.constructor(); // give temp the original obj's constructor
+	      for (var key in obj) {
+	         temp[key] = cloneObject(obj[key]);
+	      }
+
+	      return temp;
+	   }
+
+	   var bob = {
+	      name: "Bob",
+	      age: 32
+	   };
+
+	   var bill = cloneObject(bob);
+	   bill.name = "Bill";
+	};
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17371,6 +17383,26 @@
 	});
 
 	exports.default = function () {
+
+	   var addExample = function addExample(origin) {
+
+	      var inner = function inner(val) {
+
+	         var result = origin;
+
+	         if (parseInt(val + '', 10) == val) {
+	            result += val;
+	         }
+
+	         return add(result);
+	      };
+
+	      inner.valueOf = function () {
+	         return origin;
+	      };
+
+	      return inner;
+	   };
 
 	   var add = function add(origin) {
 
@@ -17403,7 +17435,7 @@
 	};
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
