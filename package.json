@@ -1,0 +1,22 @@
+{
+  "name": "space",
+  "version": "1.0.0",
+  "description": "Various code taken out of context that I have noted. I want to keep it for one reason or another",
+  "main": "clone.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uaNikita/Space.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uaNikita/Space/issues"
+  },
+  "homepage": "https://github.com/uaNikita/Space#readme",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
