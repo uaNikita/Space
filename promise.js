@@ -6,9 +6,11 @@ class Nancy {
     this.then = callback => (
       new Nancy(resolve => (
         laterCalls.push(() => (
-          resolve(this.then(callback))
-        )))
-      )
+          resolve(new Nancy(resolve => {
+            resolve(callback(this.value))
+          }))
+        ))
+      ))
     );
 
     const apply = (value) => {
@@ -18,8 +20,8 @@ class Nancy {
         this.state = 'Resolved';
         this.then = callback => (
           new Nancy(resolve => (
-            resolve(callback(this.value)))
-          )
+            resolve(callback(this.value))
+          ))
         );
 
         laterCalls.forEach(laterCall => laterCall());
@@ -29,7 +31,8 @@ class Nancy {
     executor(value => {
       if (value instanceof Nancy) {
         value.then(value => apply(value));
-      } else {
+      }
+      else {
         apply(value);
       }
     });
