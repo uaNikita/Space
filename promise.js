@@ -1,53 +1,38 @@
-const states = {
-  pending: 'Pending',
-  resolved: 'Resolved',
-  rejected: 'Rejected'
-};
-
 class Nancy {
   constructor(executor) {
     const laterCalls = [];
-    const members = {
-      [states.resolved]: {
-        state: states.resolved,
-        then: callback => new Nancy(resolve => resolve(callback(this.value))),
-      },
-      [states.pending]: {
-        state: states.pending,
-        then: callback => (
-          new Nancy(resolve => (
-            laterCalls.push(() => (
-              resolve(this.then(callback))
-            )))
-          )
-        ),
-      }
-    };
-    const changeState = state => Object.assign(this, members[state]);
 
-    const apply = (value, state) => {
-      if (this.state === states.pending) {
+    this.state = 'Pending';
+    this.then = callback => (
+      new Nancy(resolve => (
+        laterCalls.push(() => (
+          resolve(this.then(callback))
+        )))
+      )
+    );
+
+    const apply = (value) => {
+      if (this.state === 'Pending') {
         this.value = value;
 
-        changeState(state);
+        this.state = 'Resolved';
+        this.then = callback => (
+          new Nancy(resolve => (
+            resolve(callback(this.value)))
+          )
+        );
 
         laterCalls.forEach(laterCall => laterCall());
       }
     };
 
-    changeState(states.pending);
-
     executor(value => {
       if (value instanceof Nancy) {
-        value.then(value => apply(value, states.resolved));
+        value.then(value => apply(value));
       } else {
-        apply(value, states.resolved);
+        apply(value);
       }
     });
-  }
-
-  static resolve(value) {
-    return new Nancy(resolve => resolve(value));
   }
 }
 
@@ -57,8 +42,10 @@ const carry = output => input => {
 };
 
 // Chain
-Nancy.resolve(0)
-  .then(carry(1)) // logs 0
+const promise = new Nancy(resolve => {
+  resolve(0)
+})
+  .then(carry(1))
   .then((input) => {
     console.log(input);
     return new Nancy(resolve => {
@@ -66,6 +53,20 @@ Nancy.resolve(0)
         resolve('test')
       }, 1000)
     })
-  }) // logs 'test'
+  })
   .then(carry(3))
-  .then(carry(4)); // logs 2
+  .then(carry(4));
+
+
+promise
+  .then((input) => {
+    console.log(input);
+    return new Nancy(resolve => {
+      setTimeout(() => {
+        resolve('test')
+      }, 1000)
+    })
+  })
+  .then(carry(5))
+  .then(carry(6))
+  .then(carry(7));
