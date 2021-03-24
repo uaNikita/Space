@@ -14,18 +14,20 @@ class Nancy {
     );
 
     const apply = (value) => {
-      if (this.state === 'Pending') {
-        this.value = value;
-
-        this.state = 'Resolved';
-        this.then = callback => (
-          new Nancy(resolve => (
-            resolve(callback(this.value))
-          ))
-        );
-
-        laterCalls.forEach(laterCall => laterCall());
+      if (this.state !== 'Pending') {
+        return;
       }
+
+      this.value = value;
+
+      this.state = 'Resolved';
+      this.then = callback => (
+        new Nancy(resolve => (
+          resolve(callback(this.value))
+        ))
+      );
+
+      laterCalls.forEach(laterCall => laterCall());
     };
 
     executor(value => {
