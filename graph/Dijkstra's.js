@@ -1,3 +1,5 @@
+// https://www.youtube.com/watch?v=pVfj6mxhdMw
+
 const dijkstra = (edges, n, src) => {
     const graph = {};
 
