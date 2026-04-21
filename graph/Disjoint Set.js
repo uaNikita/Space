@@ -24,9 +24,9 @@ class UnionFind {
             return false;
         }
 
-        if (vertices[rootA] < vertices[rootB]) {
+        if (vertices[rootA][1] < vertices[rootB][1]) {
             vertices[rootA][0] = vertices[rootB][0];
-        } else if (vertices[rootB] < vertices[rootA]) {
+        } else if (vertices[rootB][1] < vertices[rootA][1]) {
             vertices[rootB][0] = vertices[rootA][0];
         } else {
             vertices[rootB][0] = vertices[rootA][0];
